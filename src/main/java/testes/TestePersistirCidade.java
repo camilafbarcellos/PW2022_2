@@ -4,13 +4,14 @@ package testes;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import modelo.Cidade;
 import modelo.Estado;
 
 /**
  *
  * @author 20202pf.cc0003
  */
-public class TestePersistirEstado {
+public class TestePersistirCidade {
 
     /**
      * @param args the command line arguments
@@ -21,12 +22,13 @@ public class TestePersistirEstado {
                 Persistence.createEntityManagerFactory("PW2022_2_ModelPU");
         EntityManager em = emf.createEntityManager();
         
-        Estado e = new Estado();
-        e.setNome("Rio Grande do Sul");
-        e.setUf("RS");
+        Estado e = em.find(Estado.class, 2); // encontra o estado para setar na cidade
+        Cidade c = new Cidade();
+        c.setNome("Passo Fundo");
+        c.setEstado(e); // seta o estado retornado pelo find
         
         em.getTransaction().begin(); // inicia a transação
-        em.persist(e); // persiste o estado
+        em.persist(c); // persiste a cidade
         em.getTransaction().commit(); // commita a transação
         em.close();
         emf.close();

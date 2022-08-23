@@ -8,9 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 /**
@@ -18,13 +21,13 @@ import org.hibernate.validator.constraints.Length;
  * @author 20202pf.cc0003
  */
 @Entity
-@Table(name = "estado")
-public class Estado implements Serializable {
+@Table(name = "cidade")
+public class Cidade implements Serializable {
     
     @Id
-    @SequenceGenerator(name = "seq_estado", sequenceName = "seq_estado_id",
+    @SequenceGenerator(name = "seq_cidade", sequenceName = "seq_cidade_id",
             allocationSize = 1)
-    @GeneratedValue(generator = "seq_estado", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "seq_cidade", strategy = GenerationType.SEQUENCE)
     private Integer id;
     
     @NotBlank(message = "O nome deve ser informado!") // restrição para rejeitar campo em branco
@@ -32,17 +35,15 @@ public class Estado implements Serializable {
     @Column(name = "nome", nullable = false, length = 40)
     private String nome;
     
-    @NotBlank(message = "A uf deve ser informada!")
-    @Length(max = 2, min = 2, message = "A uf deve ter {max} caracteres!") // max e min definem o tamanho exato
-    @Column(name = "uf", nullable = false, length = 2)
-    private String uf;
-    
-    // construtor sem argumentos
-    public Estado() {
+    @NotNull(message = "O estado deve ser informado!") // restrição para rejeitar campo nulo
+    @ManyToOne
+    @JoinColumn(name = "estado", referencedColumnName = "id", nullable = false)
+    private Estado estado;
+
+    public Cidade() {
         
     }
-
-    // getters e setters
+    
     public Integer getId() {
         return id;
     }
@@ -59,18 +60,18 @@ public class Estado implements Serializable {
         this.nome = nome;
     }
 
-    public String getUf() {
-        return uf;
+    public Estado getEstado() {
+        return estado;
     }
 
-    public void setUf(String uf) {
-        this.uf = uf;
+    public void setEstado(Estado estado) {
+        this.estado = estado;
     }
 
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 97 * hash + Objects.hashCode(this.id);
+        hash = 73 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -85,7 +86,7 @@ public class Estado implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Estado other = (Estado) obj;
+        final Cidade other = (Cidade) obj;
         return Objects.equals(this.id, other.id);
     }
     
