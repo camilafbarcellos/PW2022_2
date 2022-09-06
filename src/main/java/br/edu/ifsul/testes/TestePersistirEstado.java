@@ -1,16 +1,16 @@
 
-package testes;
+package br.edu.ifsul.testes;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import modelo.Estado;
+import br.edu.ifsul.modelo.Estado;
 
 /**
  *
  * @author 20202pf.cc0003
  */
-public class TesteAlterarEstado {
+public class TestePersistirEstado {
 
     /**
      * @param args the command line arguments
@@ -21,12 +21,12 @@ public class TesteAlterarEstado {
                 Persistence.createEntityManagerFactory("PW2022_2_ModelPU");
         EntityManager em = emf.createEntityManager();
         
-        Estado e = em.find(Estado.class, 2);
-        e.setNome("Santa Catarina");
-        e.setUf("SC");
+        Estado e = new Estado();
+        e.setNome("Rio Grande do Sul");
+        e.setUf("RS");
         
         em.getTransaction().begin(); // inicia a transação
-        em.merge(e); // método para realizar update
+        em.persist(e); // persiste o estado
         em.getTransaction().commit(); // commita a transação
         em.close();
         emf.close();

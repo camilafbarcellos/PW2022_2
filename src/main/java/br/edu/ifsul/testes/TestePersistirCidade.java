@@ -1,11 +1,11 @@
 
-package testes;
+package br.edu.ifsul.testes;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import modelo.Cidade;
-import modelo.Estado;
+import br.edu.ifsul.modelo.Cidade;
+import br.edu.ifsul.modelo.Estado;
 
 /**
  *

@@ -1,17 +1,16 @@
 
-package testes;
+package br.edu.ifsul.testes;
 
-import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import modelo.Estado;
+import br.edu.ifsul.modelo.Estado;
 
 /**
  *
  * @author 20202pf.cc0003
  */
-public class TesteListarEstado {
+public class TesteRemoverEstado {
 
     /**
      * @param args the command line arguments
@@ -22,14 +21,11 @@ public class TesteListarEstado {
                 Persistence.createEntityManagerFactory("PW2022_2_ModelPU");
         EntityManager em = emf.createEntityManager();
         
-        List<Estado> lista = 
-                em.createQuery("from Estado order by nome").getResultList(); // comando da operação
-                                    // Estado é o nome da classe em Java, pois no BD está "estado"
+        Estado e = em.find(Estado.class, 2);
         
-        for (Estado e : lista) {
-            System.out.println("ID: "+e.getId()+" Nome: "+e.getNome()+" UF: "+e.getUf());
-        }
-        
+        em.getTransaction().begin(); // inicia a transação
+        em.remove(e); // método para realizar delete
+        em.getTransaction().commit(); // commita a transação
         em.close();
         emf.close();
     }

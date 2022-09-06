@@ -1,16 +1,17 @@
 
-package testes;
+package br.edu.ifsul.testes;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import modelo.Estado;
+import br.edu.ifsul.modelo.Estado;
 
 /**
  *
  * @author 20202pf.cc0003
  */
-public class TestePersistirEstado {
+public class TesteListarEstado {
 
     /**
      * @param args the command line arguments
@@ -21,13 +22,14 @@ public class TestePersistirEstado {
                 Persistence.createEntityManagerFactory("PW2022_2_ModelPU");
         EntityManager em = emf.createEntityManager();
         
-        Estado e = new Estado();
-        e.setNome("Rio Grande do Sul");
-        e.setUf("RS");
+        List<Estado> lista = 
+                em.createQuery("from Estado order by nome").getResultList(); // comando da operação
+                                    // Estado é o nome da classe em Java, pois no BD está "estado"
         
-        em.getTransaction().begin(); // inicia a transação
-        em.persist(e); // persiste o estado
-        em.getTransaction().commit(); // commita a transação
+        for (Estado e : lista) {
+            System.out.println("ID: "+e.getId()+" Nome: "+e.getNome()+" UF: "+e.getUf());
+        }
+        
         em.close();
         emf.close();
     }

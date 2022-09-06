@@ -1,16 +1,16 @@
 
-package testes;
+package br.edu.ifsul.testes;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import modelo.Estado;
+import br.edu.ifsul.modelo.Estado;
 
 /**
  *
  * @author 20202pf.cc0003
  */
-public class TesteRemoverEstado {
+public class TesteAlterarEstado {
 
     /**
      * @param args the command line arguments
@@ -22,9 +22,11 @@ public class TesteRemoverEstado {
         EntityManager em = emf.createEntityManager();
         
         Estado e = em.find(Estado.class, 2);
+        e.setNome("Santa Catarina");
+        e.setUf("SC");
         
         em.getTransaction().begin(); // inicia a transação
-        em.remove(e); // método para realizar delete
+        em.merge(e); // método para realizar update
         em.getTransaction().commit(); // commita a transação
         em.close();
         emf.close();
